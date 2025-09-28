@@ -1,16 +1,11 @@
-from fastapi import FastAPI, UploadFile, Form
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.post("/process_gsheet")
-async def process_gsheet(pdf: UploadFile, gsheet_url: str = Form(...)):
-    content = await pdf.read()
-    size_kb = round(len(content) / 1024, 2)
+@app.get("/")
+def root():
+    return {"message": "Hello from FastAPI on Render!"}
 
-    return JSONResponse({
-        "message": "API nhận thành công!",
-        "pdf_filename": pdf.filename,
-        "pdf_size_kb": size_kb,
-        "gsheet_url": gsheet_url
-    })
+@app.post("/process_gsheet")
+def process(data: dict):
+    return {"received": data}
